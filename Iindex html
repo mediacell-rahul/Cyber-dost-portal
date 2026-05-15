@@ -1,204 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber Dost Complaint Portal</title>
+  <title>Cyber Complaint Portal</title>
 
-<style>
+  <style>
+    body{
+      font-family: Arial;
+      background:#f2f2f2;
+      padding:20px;
+    }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
+    .box{
+      background:white;
+      padding:20px;
+      border-radius:10px;
+      max-width:500px;
+      margin:auto;
+    }
 
-body{
-    background:linear-gradient(135deg,#1e1b4b,#312e81);
-    color:white;
-    padding:20px;
-}
+    input, textarea, select{
+      width:100%;
+      padding:10px;
+      margin-top:10px;
+    }
 
-.header{
-    text-align:center;
-    margin-bottom:25px;
-}
+    button{
+      width:100%;
+      padding:12px;
+      margin-top:15px;
+      background:#002b7f;
+      color:white;
+      border:none;
+      border-radius:5px;
+      cursor:pointer;
+    }
 
-.header h1{
-    font-size:36px;
-}
-
-.header p{
-    color:#ddd;
-    margin-top:5px;
-}
-
-.form-box{
-    max-width:420px;
-    margin:auto;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(12px);
-    padding:25px;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,0.2);
-}
-
-label{
-    display:block;
-    margin-top:15px;
-    margin-bottom:8px;
-    font-weight:bold;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    background:rgba(255,255,255,0.15);
-    color:white;
-    font-size:16px;
-    outline:none;
-}
-
-textarea{
-    height:120px;
-    resize:none;
-}
-
-input::placeholder,
-textarea::placeholder{
-    color:#ddd;
-}
-
-button{
-    width:100%;
-    padding:15px;
-    margin-top:25px;
-    border:none;
-    border-radius:12px;
-    background:white;
-    color:#4c1d95;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#eee;
-}
-
-.success{
-    display:none;
-    margin-top:20px;
-    padding:15px;
-    background:#14532d;
-    border-radius:10px;
-    text-align:center;
-}
-
-.footer{
-    text-align:center;
-    margin-top:25px;
-    color:#ddd;
-}
-
-</style>
+    .msg{
+      margin-top:15px;
+      color:green;
+      font-weight:bold;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="header">
-<h1>CYBER DOST</h1>
-<p>Cyber Crime Complaint Portal</p>
-</div>
+<div class="box">
 
-<div class="form-box">
+<h2>Cyber Complaint Registration</h2>
 
-<label>Full Name</label>
-<input type="text" id="name" placeholder="Enter your name">
+<input type="text" id="name" placeholder="Full Name">
 
-<label>Mobile Number</label>
-<input type="number" id="mobile" placeholder="Enter mobile number">
+<input type="text" id="mobile" placeholder="Mobile Number">
 
-<label>Email Address</label>
-<input type="email" id="email" placeholder="Enter email">
+<input type="text" id="address" placeholder="Full Address">
 
-<label>Complaint Type</label>
-<select id="type">
-<option>Online Fraud</option>
-<option>UPI Scam</option>
-<option>Fake Call</option>
-<option>Instagram Hack</option>
-<option>Facebook Hack</option>
-<option>Cyber Bullying</option>
+<select id="fraud">
+  <option>Select Fraud Type</option>
+  <option>UPI Fraud</option>
+  <option>Bank Fraud</option>
+  <option>OTP Scam</option>
+  <option>Social Media Fraud</option>
 </select>
 
-<label>Complaint Details</label>
-<textarea id="details" placeholder="Describe your complaint"></textarea>
+<textarea id="complaint" placeholder="Write Complaint"></textarea>
 
-<label>Date of Incident</label>
-<input type="date" id="date">
+<button onclick="saveComplaint()">Submit Complaint</button>
 
-<button onclick="submitComplaint()">
-Submit Complaint
-</button>
-
-<div class="success" id="success">
-Complaint Submitted Successfully ✅
-</div>
+<div class="msg" id="msg"></div>
 
 </div>
 
-<div class="footer">
-© 2026 Cyber Dost Portal
-</div>
+<script type="module">
 
-<script>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-function submitComplaint(){
+import {
+getFirestore,
+collection,
+addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-document.getElementById("success").style.display = "block";
+const firebaseConfig = {
+
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_BUCKET",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+window.saveComplaint = async function(){
+
+  const complaintNumber = "CC-" + Date.now();
+
+  const name = document.getElementById("name").value;
+
+  const mobile = document.getElementById("mobile").value;
+
+  const address = document.getElementById("address").value;
+
+  const fraud = document.getElementById("fraud").value;
+
+  const complaint = document.getElementById("complaint").value;
+
+  try{
+
+    await addDoc(collection(db,"complaints"),{
+
+      complaintNumber,
+      name,
+      mobile,
+      address,
+      fraud,
+      complaint,
+      status:"Pending",
+      createdAt:new Date()
+
+    });
+
+    document.getElementById("msg").innerHTML =
+    "Complaint Submitted Successfully<br>Complaint Number: " + complaintNumber;
+
+  }catch(error){
+
+    document.getElementById("msg").innerHTML = error;
+
+  }
 
 }
 
 </script>
 
-<h2>Cyber Complaint Registration</h2>
-
-<input type="text" placeholder="Full Name">
-
-<input type="text" placeholder="Phone Number">
-
-<textarea placeholder="Write Complaint"></textarea>
-
-<button>Submit Complaint</button>
-
-</div>
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAEScUVQRwFKuPuQBttPyLmkJ5oD59ixIg",
-  authDomain: "cyber-dost-2f53a.firebaseapp.com",
-  databaseURL: "https://cyber-dost-2f53a-default-rtdb.firebaseio.com",
-  projectId: "cyber-dost-2f53a",
-  storageBucket: "cyber-dost-2f53a.firebasestorage.app",
-  messagingSenderId: "519391576773",
-  appId: "1:519391576773:web:8075fd3cd45e44a4cda6ac",
-  measurementId: "G-HM6PRM79E5"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 </body>
 </html>
