@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin Dashboard</title>
 
-  <style>
-    body{
-      font-family:Arial;
-      padding:20px;
-      background:#f2f2f2;
-    }
+<title>Admin Dashboard</title>
 
-    .card{
-      background:white;
-      padding:15px;
-      margin-top:15px;
-      border-radius:10px;
-    }
-  </style>
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
+background:#f2f2f2;
+}
+
+.card{
+background:white;
+padding:15px;
+margin-top:15px;
+border-radius:10px;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -37,12 +41,19 @@ getDocs
 
 const firebaseConfig = {
 
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
+  apiKey: "AIzaSyAEScUVQRwFKuPuQBttPyLmkJ5oD59ixIg",
+
+  authDomain: "cyber-dost-2f53a.firebaseapp.com",
+
+  databaseURL: "https://cyber-dost-2f53a-default-rtdb.firebaseio.com",
+
+  projectId: "cyber-dost-2f53a",
+
+  storageBucket: "cyber-dost-2f53a.firebasestorage.app",
+
+  messagingSenderId: "519391576773",
+
+  appId: "1:519391576773:web:8075fd3cd45e44a4cda6ac"
 
 };
 
@@ -52,23 +63,52 @@ const db = getFirestore(app);
 
 async function loadData(){
 
-  const querySnapshot =
-  await getDocs(collection(db,"complaints"));
+const querySnapshot =
+await getDocs(collection(db,"complaints"));
 
-  querySnapshot.forEach((doc)=>{
+querySnapshot.forEach((doc)=>{
 
-    const x = doc.data();
+const x = doc.data();
 
-    document.getElementById("data").innerHTML += `
+document.getElementById("data").innerHTML += `
 
-      <div class="card">
+<div class="card">
 
-      <b>Complaint No:</b> ${x.complaintNumber}<br><br>
+<b>Complaint No:</b>
+${x.complaintNumber}<br><br>
 
-      <b>Name:</b> ${x.name}<br><br>
+<b>Name:</b>
+${x.name}<br><br>
 
-      <b>Mobile:</b> ${x.mobile}<br><br>
+<b>Mobile:</b>
+${x.mobile}<br><br>
 
+<b>Address:</b>
+${x.address}<br><br>
+
+<b>Fraud Type:</b>
+${x.fraud}<br><br>
+
+<b>Complaint:</b>
+${x.complaint}<br><br>
+
+<b>Status:</b>
+${x.status}
+
+</div>
+
+`;
+
+});
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
       <b>Address:</b> ${x.address}<br><br>
 
       <b>Fraud Type:</b> ${x.fraud}<br><br>
