@@ -1,58 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
-<title>Cyber Complaint Portal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cyber Dost Complaint Portal</title>
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
 body{
-font-family:Arial;
-background:#f2f2f2;
+background:linear-gradient(135deg,#1e1b4b,#312e81);
+color:white;
 padding:20px;
 }
 
-.box{
-background:white;
-padding:20px;
-border-radius:10px;
-max-width:600px;
+.header{
+text-align:center;
+margin-bottom:25px;
+}
+
+.header h1{
+font-size:36px;
+}
+
+.header p{
+color:#ddd;
+margin-top:5px;
+}
+
+.form-box{
+max-width:500px;
 margin:auto;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(12px);
+padding:25px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.2);
 }
 
-input, textarea, select{
+label{
+display:block;
+margin-top:15px;
+margin-bottom:8px;
+font-weight:bold;
+}
+
+input,
+select,
+textarea{
 width:100%;
-padding:10px;
-margin-top:10px;
+padding:14px;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,0.15);
+color:white;
+font-size:16px;
+outline:none;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+input::placeholder,
+textarea::placeholder{
+color:#ddd;
 }
 
 button{
 width:100%;
-padding:12px;
-margin-top:15px;
-background:#002b7f;
-color:white;
+padding:15px;
+margin-top:25px;
 border:none;
-border-radius:5px;
+border-radius:12px;
+background:white;
+color:#4c1d95;
+font-size:18px;
+font-weight:bold;
 cursor:pointer;
 }
 
-.msg{
-margin-top:15px;
-color:green;
-font-weight:bold;
+button:hover{
+background:#eee;
+}
+
+.success{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#14532d;
+border-radius:10px;
+text-align:center;
+}
+
+.footer{
+text-align:center;
+margin-top:25px;
+color:#ddd;
 }
 
 .card{
 background:white;
+color:black;
 padding:15px;
 margin-top:15px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+border-radius:15px;
 }
 
-h2{
-text-align:center;
+.card b{
+color:#4c1d95;
 }
 
 </style>
@@ -61,43 +127,81 @@ text-align:center;
 
 <body>
 
-<div class="box">
+<div class="header">
 
-<h2>Cyber Complaint Registration</h2>
+<h1>CYBER DOST</h1>
 
-<input type="text" id="name" placeholder="Full Name">
+<p>Cyber Crime Complaint Portal</p>
 
-<input type="text" id="mobile" placeholder="Mobile Number">
+</div>
 
-<input type="text" id="address" placeholder="Full Address">
+<div class="form-box">
 
-<select id="fraud">
+<label>Full Name</label>
 
-<option>Select Fraud Type</option>
+<input type="text" id="name" placeholder="Enter your name">
 
-<option>UPI Fraud</option>
+<label>Mobile Number</label>
 
-<option>Bank Fraud</option>
+<input type="number" id="mobile" placeholder="Enter mobile number">
 
-<option>OTP Scam</option>
+<label>Email Address</label>
 
-<option>Social Media Fraud</option>
+<input type="email" id="email" placeholder="Enter email">
+
+<label>Complaint Type</label>
+
+<select id="type">
+
+<option>Online Fraud</option>
+
+<option>UPI Scam</option>
+
+<option>Fake Call</option>
+
+<option>Instagram Hack</option>
+
+<option>Facebook Hack</option>
+
+<option>Cyber Bullying</option>
 
 </select>
 
-<textarea id="complaint" placeholder="Write Complaint"></textarea>
+<label>Complaint Details</label>
 
-<button onclick="saveComplaint()">Submit Complaint</button>
+<textarea id="details" placeholder="Describe your complaint"></textarea>
 
-<div class="msg" id="msg"></div>
+<label>Date of Incident</label>
+
+<input type="date" id="date">
+
+<button onclick="submitComplaint()">
+
+Submit Complaint
+
+</button>
+
+<div class="success" id="success">
+
+Complaint Submitted Successfully ✅
+
+</div>
 
 </div>
 
 <br><br>
 
-<h2>All Complaints</h2>
+<h2 style="text-align:center;">
+All Complaints
+</h2>
 
 <div id="data"></div>
+
+<div class="footer">
+
+© 2026 Cyber Dost Portal
+
+</div>
 
 <script type="module">
 
@@ -130,47 +234,44 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-window.saveComplaint = async function(){
+window.submitComplaint = async function(){
 
 const complaintNumber = "CC-" + Date.now();
 
-const name = document.getElementById("name").value;
+const name =
+document.getElementById("name").value;
 
-const mobile = document.getElementById("mobile").value;
+const mobile =
+document.getElementById("mobile").value;
 
-const address = document.getElementById("address").value;
+const email =
+document.getElementById("email").value;
 
-const fraud = document.getElementById("fraud").value;
+const type =
+document.getElementById("type").value;
 
-const complaint = document.getElementById("complaint").value;
+const details =
+document.getElementById("details").value;
 
-try{
+const date =
+document.getElementById("date").value;
 
 await addDoc(collection(db,"complaints"),{
 
 complaintNumber,
 name,
 mobile,
-address,
-fraud,
-complaint,
-status:"Pending",
-createdAt:new Date()
+email,
+type,
+details,
+date,
+status:"Pending"
 
 });
 
-document.getElementById("msg").innerHTML =
-"Complaint Submitted Successfully <br> Complaint Number: " + complaintNumber;
+document.getElementById("success").style.display = "block";
 
 loadData();
-
-}
-
-catch(error){
-
-document.getElementById("msg").innerHTML = error;
-
-}
 
 }
 
@@ -198,14 +299,17 @@ ${x.name}<br><br>
 <b>Mobile:</b>
 ${x.mobile}<br><br>
 
-<b>Address:</b>
-${x.address}<br><br>
+<b>Email:</b>
+${x.email}<br><br>
 
-<b>Fraud Type:</b>
-${x.fraud}<br><br>
+<b>Complaint Type:</b>
+${x.type}<br><br>
 
-<b>Complaint:</b>
-${x.complaint}<br><br>
+<b>Details:</b>
+${x.details}<br><br>
+
+<b>Date:</b>
+${x.date}<br><br>
 
 <b>Status:</b>
 ${x.status}
