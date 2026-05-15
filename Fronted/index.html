@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Dost Complaint Portal</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#1e1b4b,#312e81);
+    color:white;
+    padding:20px;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.header h1{
+    font-size:36px;
+}
+
+.header p{
+    color:#ddd;
+    margin-top:5px;
+}
+
+.form-box{
+    max-width:420px;
+    margin:auto;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(12px);
+    padding:25px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.2);
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.15);
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+textarea{
+    height:120px;
+    resize:none;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#ddd;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:25px;
+    border:none;
+    border-radius:12px;
+    background:white;
+    color:#4c1d95;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#eee;
+}
+
+.success{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    background:#14532d;
+    border-radius:10px;
+    text-align:center;
+}
+
+.footer{
+    text-align:center;
+    margin-top:25px;
+    color:#ddd;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>CYBER DOST</h1>
+<p>Cyber Crime Complaint Portal</p>
+</div>
+
+<div class="form-box">
+
+<label>Full Name</label>
+<input type="text" id="name" placeholder="Enter your name">
+
+<label>Mobile Number</label>
+<input type="number" id="mobile" placeholder="Enter mobile number">
+
+<label>Email Address</label>
+<input type="email" id="email" placeholder="Enter email">
+
+<label>Complaint Type</label>
+<select id="type">
+<option>Online Fraud</option>
+<option>UPI Scam</option>
+<option>Fake Call</option>
+<option>Instagram Hack</option>
+<option>Facebook Hack</option>
+<option>Cyber Bullying</option>
+</select>
+
+<label>Complaint Details</label>
+<textarea id="details" placeholder="Describe your complaint"></textarea>
+
+<label>Date of Incident</label>
+<input type="date" id="date">
+
+<button onclick="submitComplaint()">
+Submit Complaint
+</button>
+
+<div class="success" id="success">
+Complaint Submitted Successfully ✅
+</div>
+
+</div>
+
+<div class="footer">
+© 2026 Cyber Dost Portal
+</div>
+
+<script>
+
+function submitComplaint(){
+
+document.getElementById("success").style.display = "block";
+
+}
+
+</script>
+
+</body>
+</html>
