@@ -1,48 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cyber Complaint Portal</title>
 
-  <style>
+<title>Cyber Complaint Portal</title>
 
-    body{
-      font-family:Arial;
-      background:#f2f2f2;
-      padding:20px;
-    }
+<style>
 
-    .box{
-      background:white;
-      padding:20px;
-      border-radius:10px;
-      max-width:500px;
-      margin:auto;
-    }
+body{
+font-family:Arial;
+background:#f2f2f2;
+padding:20px;
+}
 
-    input, textarea, select{
-      width:100%;
-      padding:10px;
-      margin-top:10px;
-    }
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+max-width:600px;
+margin:auto;
+}
 
-    button{
-      width:100%;
-      padding:12px;
-      margin-top:15px;
-      background:#002b7f;
-      color:white;
-      border:none;
-      border-radius:5px;
-      cursor:pointer;
-    }
+input, textarea, select{
+width:100%;
+padding:10px;
+margin-top:10px;
+}
 
-    .msg{
-      margin-top:15px;
-      color:green;
-      font-weight:bold;
-    }
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+background:#002b7f;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
 
-  </style>
+.msg{
+margin-top:15px;
+color:green;
+font-weight:bold;
+}
+
+.card{
+background:white;
+padding:15px;
+margin-top:15px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+text-align:center;
+}
+
+</style>
 
 </head>
 
@@ -80,6 +93,12 @@
 
 </div>
 
+<br><br>
+
+<h2>All Complaints</h2>
+
+<div id="data"></div>
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -87,22 +106,23 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
 getFirestore,
 collection,
-addDoc
+addDoc,
+getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyAEScUVQRwFKuPuQBttPyLmkJ5oD59ixIg",
+apiKey: "AIzaSyAEScUVQRwFKuPuQBttPyLmkJ5oD59ixIg",
 
-  authDomain: "cyber-dost-2f53a.firebaseapp.com",
+authDomain: "cyber-dost-2f53a.firebaseapp.com",
 
-  projectId: "cyber-dost-2f53a",
+projectId: "cyber-dost-2f53a",
 
-  storageBucket: "cyber-dost-2f53a.firebasestorage.app",
+storageBucket: "cyber-dost-2f53a.firebasestorage.app",
 
-  messagingSenderId: "519391576773",
+messagingSenderId: "519391576773",
 
-  appId: "1:519391576773:web:8075fd3cd45e44a4cda6ac"
+appId: "1:519391576773:web:8075fd3cd45e44a4cda6ac"
 
 };
 
@@ -112,45 +132,93 @@ const db = getFirestore(app);
 
 window.saveComplaint = async function(){
 
-  const complaintNumber = "CC-" + Date.now();
+const complaintNumber = "CC-" + Date.now();
 
-  const name = document.getElementById("name").value;
+const name = document.getElementById("name").value;
 
-  const mobile = document.getElementById("mobile").value;
+const mobile = document.getElementById("mobile").value;
 
-  const address = document.getElementById("address").value;
+const address = document.getElementById("address").value;
 
-  const fraud = document.getElementById("fraud").value;
+const fraud = document.getElementById("fraud").value;
 
-  const complaint = document.getElementById("complaint").value;
+const complaint = document.getElementById("complaint").value;
 
-  try{
+try{
 
-    await addDoc(collection(db,"complaints"),{
+await addDoc(collection(db,"complaints"),{
 
-      complaintNumber,
-      name,
-      mobile,
-      address,
-      fraud,
-      complaint,
-      status:"Pending",
-      createdAt:new Date()
+complaintNumber,
+name,
+mobile,
+address,
+fraud,
+complaint,
+status:"Pending",
+createdAt:new Date()
 
-    });
+});
 
-    document.getElementById("msg").innerHTML =
-    "Complaint Submitted Successfully <br> Complaint Number: " + complaintNumber;
+document.getElementById("msg").innerHTML =
+"Complaint Submitted Successfully <br> Complaint Number: " + complaintNumber;
 
-  }
-
-  catch(error){
-
-    document.getElementById("msg").innerHTML = error;
-
-  }
+loadData();
 
 }
+
+catch(error){
+
+document.getElementById("msg").innerHTML = error;
+
+}
+
+}
+
+async function loadData(){
+
+document.getElementById("data").innerHTML = "";
+
+const querySnapshot =
+await getDocs(collection(db,"complaints"));
+
+querySnapshot.forEach((doc)=>{
+
+const x = doc.data();
+
+document.getElementById("data").innerHTML += `
+
+<div class="card">
+
+<b>Complaint No:</b>
+${x.complaintNumber}<br><br>
+
+<b>Name:</b>
+${x.name}<br><br>
+
+<b>Mobile:</b>
+${x.mobile}<br><br>
+
+<b>Address:</b>
+${x.address}<br><br>
+
+<b>Fraud Type:</b>
+${x.fraud}<br><br>
+
+<b>Complaint:</b>
+${x.complaint}<br><br>
+
+<b>Status:</b>
+${x.status}
+
+</div>
+
+`;
+
+});
+
+}
+
+loadData();
 
 </script>
 
