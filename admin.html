@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+
+  <style>
+    body{
+      font-family:Arial;
+      padding:20px;
+      background:#f2f2f2;
+    }
+
+    .card{
+      background:white;
+      padding:15px;
+      margin-top:15px;
+      border-radius:10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>All Complaints</h2>
+
+<div id="data"></div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_BUCKET",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+async function loadData(){
+
+  const querySnapshot =
+  await getDocs(collection(db,"complaints"));
+
+  querySnapshot.forEach((doc)=>{
+
+    const x = doc.data();
+
+    document.getElementById("data").innerHTML += `
+
+      <div class="card">
+
+      <b>Complaint No:</b> ${x.complaintNumber}<br><br>
+
+      <b>Name:</b> ${x.name}<br><br>
+
+      <b>Mobile:</b> ${x.mobile}<br><br>
+
+      <b>Address:</b> ${x.address}<br><br>
+
+      <b>Fraud Type:</b> ${x.fraud}<br><br>
+
+      <b>Complaint:</b> ${x.complaint}<br><br>
+
+      <b>Status:</b> ${x.status}
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
