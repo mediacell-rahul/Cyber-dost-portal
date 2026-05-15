@@ -4,8 +4,9 @@
   <title>Cyber Complaint Portal</title>
 
   <style>
+
     body{
-      font-family: Arial;
+      font-family:Arial;
       background:#f2f2f2;
       padding:20px;
     }
@@ -40,7 +41,9 @@
       color:green;
       font-weight:bold;
     }
+
   </style>
+
 </head>
 
 <body>
@@ -56,11 +59,17 @@
 <input type="text" id="address" placeholder="Full Address">
 
 <select id="fraud">
-  <option>Select Fraud Type</option>
-  <option>UPI Fraud</option>
-  <option>Bank Fraud</option>
-  <option>OTP Scam</option>
-  <option>Social Media Fraud</option>
+
+<option>Select Fraud Type</option>
+
+<option>UPI Fraud</option>
+
+<option>Bank Fraud</option>
+
+<option>OTP Scam</option>
+
+<option>Social Media Fraud</option>
+
 </select>
 
 <textarea id="complaint" placeholder="Write Complaint"></textarea>
@@ -83,28 +92,17 @@ addDoc
 
 const firebaseConfig = {
 
-  apiKey: " FileInputStream serviceAccount =
-new FileInputStream("path/to/serviceAccountKey.json");
+  apiKey: "AIzaSyAEScUVQRwFKuPuQBttPyLmkJ5oD59ixIg",
 
-FirebaseOptions options = new FirebaseOptions.Builder()
-  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-  .setDatabaseUrl("https://cyber-dost-2f53a-default-rtdb.firebaseio.com")
-  .build();
+  authDomain: "cyber-dost-2f53a.firebaseapp.com",
 
-FirebaseApp.initializeApp(options); ",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "FileInputStream serviceAccount =
-new FileInputStream("path/to/serviceAccountKey.json");
+  projectId: "cyber-dost-2f53a",
 
-FirebaseOptions options = new FirebaseOptions.Builder()
-  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-  .setDatabaseUrl("https://cyber-dost-2f53a-default-rtdb.firebaseio.com")
-  .build();
+  storageBucket: "cyber-dost-2f53a.firebasestorage.app",
 
-FirebaseApp.initializeApp(options); ",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
+  messagingSenderId: "519391576773",
+
+  appId: "1:519391576773:web:8075fd3cd45e44a4cda6ac"
 
 };
 
@@ -142,9 +140,11 @@ window.saveComplaint = async function(){
     });
 
     document.getElementById("msg").innerHTML =
-    "Complaint Submitted Successfully<br>Complaint Number: " + complaintNumber;
+    "Complaint Submitted Successfully <br> Complaint Number: " + complaintNumber;
 
-  }catch(error){
+  }
+
+  catch(error){
 
     document.getElementById("msg").innerHTML = error;
 
